@@ -5,15 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const indicator = document.getElementById('active-indicator');
     const navSensor = document.getElementById('nav-sensor');
 
-    const ITEM_WIDTH = 72; // Must match --item-width in CSS
-
-    // --- Part 1: Click Animation & Alignment ---
+    // --- Part 1: Click Animation & Alignment (Unchanged) ---
     const setActive = (item) => {
         if (!item || item.classList.contains('active')) return;
-        
-        const itemIndex = navItems.indexOf(item);
-        const newPosition = itemIndex * ITEM_WIDTH; // Correct, index-based positioning
-
+        const newPosition = item.parentElement.offsetLeft;
         indicator.classList.add('indicator-moving');
         navItems.forEach(i => i.classList.remove('active'));
         item.classList.add('active');
@@ -23,8 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const initialActiveItem = mainNav.querySelector('.nav-item a.active');
     if (initialActiveItem) {
-        const initialIndex = navItems.indexOf(initialActiveItem);
-        indicator.style.transform = `translateX(${initialIndex * ITEM_WIDTH}px)`;
+        indicator.style.transform = `translateX(${initialActiveItem.parentElement.offsetLeft}px)`;
     }
 
     navItems.forEach(item => item.addEventListener('click', (e) => {
@@ -32,55 +26,51 @@ document.addEventListener('DOMContentLoaded', () => {
         setActive(item);
     }));
 
-    // --- Part 2: Intelligent Theming via Pixel Analysis ---
-    let isProcessing = false;
-    const checkBackgroundColor = () => {
-        if (isProcessing) return;
-        isProcessing = true;
-
+    // --- Part 2: Simplified & Reliable Theming via Element Detection ---
+    const checkBackground = () => {
         const rect = navSensor.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
 
-        html2canvas(document.body, {
-            x: rect.left,
-            y: rect.top,
-            width: rect.width,
-            height: rect.height,
-            scale: 0.1 // Capture a low-res image for performance
-        }).then(canvas => {
-            const ctx = canvas.getContext('2d');
-            const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-            
-            let totalLuminance = 0;
-            for (let i = 0; i < data.length; i += 4) {
-                const r = data[i];
-                const g = data[i+1];
-                const b = data[i+2];
-                // Standard formula for perceived brightness
-                totalLuminance += (0.299 * r + 0.587 * g + 0.114 * b);
-            }
-            
-            const avgLuminance = totalLuminance / (data.length / 4);
-            
-            // Threshold for light/dark (128 is the midpoint of 255)
-            if (avgLuminance > 128) {
-                uiContainer.classList.add('theme-light');
-            } else {
-                uiContainer.classList.remove('theme-light');
-            }
-            
-            isProcessing = false;
-        }).catch(() => {
-            isProcessing = false; // Ensure we can try again even if it fails
-        });
+        // Find the topmost element at the center of the sensor
+        const elements = document.elementsFromPoint(centerX, centerY);
+        const topElement = elements.find(el => el.classList.contains('card') || el.tagName === 'BODY');
+
+        let backgroundColor = 'rgb(22, 22, 24)'; // Default to body color
+        if (topElement && topElement.classList.contains('card')) {
+            backgroundColor = window.getComputedStyle(topElement).backgroundColor;
+        }
+
+        // Parse the RGB color string
+        const [r, g, b] = backgroundColor.match(/\d+/g).map(Number);
+        
+        // Define our conditions for a "problematic" background
+        const luminance = (0.299 * r + 0.587 * g + 0.114 * b);
+        const isBright = luminance > 200;
+        const isBlueDominant = b > r && b > g && (b - r > 50);
+
+        // The ONLY decision: Should the active item be red for contrast?
+        if (isBright || isBlueDominant) {
+            uiContainer.classList.add('theme-contrast-active');
+        } else {
+            uiContainer.classList.remove('theme-contrast-active');
+        }
     };
 
-    // Throttle the check to run at most every 250ms
+    // Use a more responsive IntersectionObserver to trigger the check
+    const observer = new IntersectionObserver(() => {
+        checkBackground();
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.card, body').forEach(el => observer.observe(el));
+
+    // Also run the check on scroll for continuous accuracy
     let scrollTimeout;
     window.addEventListener('scroll', () => {
         clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(checkBackgroundColor, 250);
+        scrollTimeout = setTimeout(checkBackground, 50);
     });
-    
+
     // Initial check on load
-    setTimeout(checkBackgroundColor, 500);
+    setTimeout(checkBackground, 100);
 });
