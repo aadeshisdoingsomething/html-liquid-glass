@@ -6,63 +6,31 @@
     --transition-speed: 0.4s;
 }
 * { box-sizing: border-box; }
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #161618;
-    color: #f5f5f7;
-    margin: 0;
-    padding-bottom: 200px;
-}
-
-/* --- New Seamless Vignette --- */
-.vignette-overlay {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    height: 30vh; /* Cover bottom 30% of the viewport */
-    background: #000;
-    z-index: 998;
-    pointer-events: none;
-    /* This gradient mask makes the black background fade out perfectly */
-    mask-image: linear-gradient(to top, black 20%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to top, black 20%, transparent 100%);
-}
-
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #161618; color: #f5f5f7; margin: 0; padding-bottom: 200px; }
+.vignette-overlay { position: fixed; bottom: 0; left: 0; right: 0; height: 10vh; background: #000; z-index: 998; pointer-events: none; mask-image: linear-gradient(to top, black 10%, transparent 100%); -webkit-mask-image: linear-gradient(to top, black 10%, transparent 100%); }
 .content { padding: 20px; max-width: 800px; margin: 0 auto; }
 .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px; padding: 20px 0; }
 .card { height: 150px; border-radius: 20px; }
-
 #nav-sensor { position: fixed; bottom: var(--bottom-safe-area); left: 50%; transform: translateX(-50%); height: var(--nav-height); width: 312px; z-index: 999; pointer-events: none; }
 .bottom-ui-container { position: fixed; bottom: var(--bottom-safe-area); left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 12px; z-index: 1000; }
 
-.ios-bottom-nav, .ios-search-island { height: var(--nav-height); background-color: rgba(70, 70, 70, 0.25); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; transition: background-color var(--transition-speed) ease, border var(--transition-speed) ease; }
+.ios-bottom-nav, .ios-search-island { height: var(--nav-height); background-color: rgba(70, 70, 70, 0.25); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; }
 .nav-items { display: flex; list-style: none; margin: 0; padding: 0; }
 .nav-item a { color: #e0e0e0; width: var(--item-width); display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; height: 100%; z-index: 2; position: relative; transition: color var(--transition-speed) ease; }
-.nav-item a.active { color: #007aff; }
-
-/* --- Perfected Indicator Alignment --- */
-.active-indicator {
-    position: absolute;
-    top: var(--pill-padding);
-    left: var(--pill-padding); /* Start at the padded edge */
-    height: calc(100% - (var(--pill-padding) * 2));
-    width: var(--item-width);
-    background-color: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 50px; z-index: 1; opacity: 1;
-    transition: transform var(--transition-speed) cubic-bezier(0.34, 1.56, 0.64, 1), opacity var(--transition-speed) ease-out, background-color var(--transition-speed) ease;
-}
+.active-indicator { position: absolute; top: var(--pill-padding); left: var(--pill-padding); height: calc(100% - (var(--pill-padding) * 2)); width: var(--item-width); background-color: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 50px; z-index: 1; opacity: 1; transition: transform var(--transition-speed) cubic-bezier(0.34, 1.56, 0.64, 1), opacity var(--transition-speed) ease-out; }
 .active-indicator.indicator-moving { opacity: 0.2; }
-
 .nav-icon { width: 24px; height: 24px; fill: currentColor; margin-bottom: 2px; }
 .nav-label { font-size: 10px; font-weight: 500; }
 .ios-search-island { width: var(--nav-height); padding: 0; justify-content: center; }
 .ios-search-island a { color: #e0e0e0; display: flex; transition: color var(--transition-speed) ease;}
 .ios-search-island .nav-icon { margin: 0; }
 
-/* --- Light Theme Overrides --- */
-.theme-light .ios-bottom-nav, .theme-light .ios-search-island { background-color: rgba(240, 240, 240, 0.5); border: 1px solid rgba(0, 0, 0, 0.1); }
-.theme-light .nav-item a { color: #555; }
-.theme-light .nav-item a.active { color: #000; }
-.theme-light .active-indicator { background-color: rgba(255, 255, 255, 0.8); }
-.theme-light .ios-search-island a { color: #555; }
+/* --- Simplified and Final Theming Logic --- */
+/* The default active item color is always blue */
+.nav-item a.active {
+    color: #007aff;
+}
+/* This single class is the ONLY override. It changes the active item to red. */
+.theme-contrast-active .nav-item a.active {
+    color: #ff3b30;
+}
