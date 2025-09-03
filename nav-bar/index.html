@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS Dynamic Nav Bar</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Required library for pixel analysis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <!-- New overlay for the smooth vignette effect -->
+    <div class="vignette-overlay"></div>
+
+    <main class="content">
+        <h1>iOS Dynamic Navigation</h1>
+        <p>The theme switching is now powered by real-time pixel analysis of the background. The vignette and alignment are also perfected.</p>
+        
+        <div class="card-grid">
+            <div class="card" style="background-color: #ff9500;"></div>
+            <div class="card" style="background-color: #ff2d55;"></div>
+            <div class="card" style="background-color: #007aff;"></div>
+            <div class="card" style="background-color: #f0f2f5;"></div>
+            <div class="card" style="background-color: #5856d6;"></div>
+            <div class="card" style="background-color: #ffcc00;"></div>
+            <div class="card" style="background-color: #af52de;"></div>
+            <div class="card" style="background-color: #5ac8fa;"></div>
+            <div class="card" style="background-color: #ff3b30;"></div>
+        </div>
+    </main>
+    
+    <div id="nav-sensor"></div>
+
+    <div class="bottom-ui-container" id="ui-container">
+        <nav class="ios-bottom-nav" id="main-nav">
+            <div class="active-indicator" id="active-indicator"></div>
+            <ul class="nav-items">
+                <li class="nav-item">
+                    <a href="#" class="active"><svg class="nav-icon" viewBox="0 0 256 256"><path d="M240,128a16,16,0,0,1-16,16H32a16,16,0,0,1,0-32H224A16,16,0,0,1,240,128ZM32,80H224a16,16,0,0,0,0-32H32a16,16,0,0,0,0,32Zm0,96H224a16,16,0,0,0,0-32H32a16,16,0,0,0,0,32Z"></path></svg><span class="nav-label">Library</span></a>
+                </li>
+                <li class="nav-item">
+                    <a href="#"><svg class="nav-icon" viewBox="0 0 256 256"><path d="M242.42,194.83,184,136.42V56a8,8,0,0,0-8-8H80a8,8,0,0,0-8,8v80.42L13.58,194.83A16,16,0,0,0,26.75,224H229.25a16,16,0,0,0,13.17-29.17ZM88,56h80v80l56.54,56.54A.1.1,0,0,1,224.52,192H31.48a.1.1,0,0,1-.02-.46L88,136Z"></path></svg><span class="nav-label">Browse</span></a>
+                </li>
+                <li class="nav-item">
+                    <a href="#"><svg class="nav-icon" viewBox="0 0 256 256"><path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32Zm0,176H48V48H208V208ZM176,88a48,48,0,1,1-80,34.65V168a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0v10.65A48,48,0,0,1,176,88Zm-48,32a32,32,0,1,0-32-32A32,32,0,0,0,128,120Z"></path></svg><span class="nav-label">Radio</span></a>
+                </li>
+            </ul>
+        </nav>
+        <nav class="ios-search-island">
+            <a href="#"><svg class="nav-icon" viewBox="0 0 256 256"><path d="M229.66,218.34,195.31,184a104.58,104.58,0,1,0-11.31,11.31l34.35,34.35a8,8,0,0,0,11.31-11.31ZM40,128a88,88,0,1,1,88,88A88.1,88.1,0,0,1,40,128Z"></path></svg></a>
+        </nav>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
