@@ -5,26 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iOS Dynamic Nav Bar</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Required library for pixel analysis -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- html2canvas library is NO LONGER NEEDED -->
 </head>
 <body>
-    <!-- New overlay for the smooth vignette effect -->
     <div class="vignette-overlay"></div>
 
     <main class="content">
         <h1>iOS Dynamic Navigation</h1>
-        <p>The theme switching is now powered by real-time pixel analysis of the background. The vignette and alignment are also perfected.</p>
+        <p>Final, reliable version. The logic now uses direct element detection, which is faster and more accurate. Only the active blue item will change to red on a clashing background.</p>
         
         <div class="card-grid">
             <div class="card" style="background-color: #ff9500;"></div>
             <div class="card" style="background-color: #ff2d55;"></div>
-            <div class="card" style="background-color: #007aff;"></div>
-            <div class="card" style="background-color: #f0f2f5;"></div>
+            <div class="card" style="background-color: #007aff;"></div> <!-- This will trigger the red color -->
+            <div class="card" style="background-color: #f0f2f5;"></div> <!-- This will trigger the red color -->
             <div class="card" style="background-color: #5856d6;"></div>
             <div class="card" style="background-color: #ffcc00;"></div>
             <div class="card" style="background-color: #af52de;"></div>
-            <div class="card" style="background-color: #5ac8fa;"></div>
+            <div class="card" style="background-color: #007aff;"></div>
             <div class="card" style="background-color: #ff3b30;"></div>
         </div>
     </main>
